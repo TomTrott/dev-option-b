@@ -1,0 +1,20 @@
+/book_exchange
+│
+├── app/
+│   ├── controllers/
+│   ├── models/
+│   └── views/
+│
+├── config/
+│   └── database.php
+│
+├── core/
+│   ├── Controller.php
+│   ├── Model.php
+│   └── Router.php
+│
+├── public/
+    ├── index.php
+    └── .htaccess   
+    └── uploads/       # image des livres et autres
+    └── styles/        #css tout le css est commmenter par ia mais coder par moi et le code figma.com

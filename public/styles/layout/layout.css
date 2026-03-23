@@ -1,0 +1,79 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 10px 30px;
+}
+
+/* Partie gauche */
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Logo carré */
+.logo {
+    background-color: #2E8B57;
+    color: white;
+    font-weight: bold;
+    padding: 8px 10px;
+    border-radius: 6px;
+}
+
+/* Nom du site */
+.site-name {
+    font-weight: bold;
+    color: #2E8B57;
+    margin-right: 20px;
+}
+
+/* Liens */
+.navbar a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    margin: 0 8px;
+    transition: 0.3s;
+}
+
+.navbar a:hover {
+    color: #000;
+}
+
+/* Partie droite */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* FOOTER*/
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 15px 30px;
+    font-size: 0.9em;
+    color: #555;
+    border-top: 1px solid #ddd;
+}
+
+/* Liens à droite */
+.footer-right {
+    display: flex;
+    gap: 20px;
+}
+
+.footer a {
+    text-decoration: none;
+    color: #555;
+    transition: 0.3s;
+}
+
+.footer a:hover {
+    color: #000;
+}

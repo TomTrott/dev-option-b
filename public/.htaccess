@@ -1,0 +1,9 @@
+RewriteEngine On
+RewriteBase /Ingremeau_Tom_Option_B/public/
+
+# Si le fichier ou dossier existe, ne rien faire
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Sinon, rediriger tout vers index.php
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
