@@ -7,6 +7,7 @@ require_once __DIR__ . '/../models/Book.php';
 class ProfileController extends Controller {
 
     public function index() {
+        // crée les objet
     $userModel = new User();
     $bookModel = new Book();
 
@@ -19,7 +20,6 @@ class ProfileController extends Controller {
     ]);
 }
 
-
     public function edit() {
         if (!isset($_SESSION['user_id'])) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -30,7 +30,7 @@ class ProfileController extends Controller {
 
         $this->view('profile/edit', ['user' => $utilisateur]);
     }
-
+// met a jour
     public function update() {
         if (!isset($_SESSION['user_id'])) {
             header('Location: ' . BASE_URL . 'auth/login');
