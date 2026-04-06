@@ -22,7 +22,7 @@
     <div class="exchange-books">
         <?php if (!empty($livres)): ?>
             <?php foreach ($livres as $livre): ?>
-                <div class="book-card">
+                <div class="book-card" onclick="window.location.href='<?= BASE_URL ?>books/show?id=<?= $livre['id'] ?>'">
                     <?php if ($livre['image']): ?>
                         <img src="<?= BASE_URL ?>uploads/<?= $livre['image'] ?>" alt="<?= htmlspecialchars($livre['title']) ?>">
                     <?php endif; ?>

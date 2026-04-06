@@ -75,4 +75,72 @@ class BooksController extends Controller {
         header('Location: ' . BASE_URL . 'profile');
         exit;
     }
+
+    public function show() {
+
+        if (!isset($_GET['id'])) {
+            header('Location: ' . BASE_URL . 'exchange');
+            exit;
+        }
+
+        $id = $_GET['id'];
+
+        $bookModel = new Book();
+        $livre = $bookModel->find($id);
+
+        if (!$livre) {
+            header('Location: ' . BASE_URL . 'exchange');
+            exit;
+        }
+
+        $this->view('books/view', [
+            'livre' => $livre
+        ]);
+    }
+
+    public function create() {
+    if (!isset($_SESSION['user_id'])) {
+        header('Location: ' . BASE_URL . 'auth/login');
+        exit;
+    }
+
+    $this->view('books/create');
+}
+
+public function store() {
+    if (!isset($_SESSION['user_id'])) {
+        header('Location: ' . BASE_URL . 'auth/login');
+        exit;
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        $title = trim($_POST['title']);
+        $author = trim($_POST['author']);
+        $description = trim($_POST['description']);
+
+        // upload image
+        $imageName = null;
+
+        if (!empty($_FILES['image']['name'])) {
+            $imageName = time() . '_' . $_FILES['image']['name'];
+            move_uploaded_file(
+                $_FILES['image']['tmp_name'],
+                __DIR__ . '/../../public/uploads/' . $imageName
+            );
+        }
+
+        $bookModel = new Book();
+        $bookModel->create(
+            $_SESSION['user_id'],
+            $title,
+            $author,
+            $description,
+            $imageName
+        );
+
+        header('Location: ' . BASE_URL . 'profile');
+        exit;
+    }
+}
 }

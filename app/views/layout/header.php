@@ -18,7 +18,7 @@
 
     <div class="nav-right">
         <?php if (isset($_SESSION['user_id'])): ?>
-            <a href="#">Messagerie</a>
+            <a href="<?= BASE_URL ?>messages">Messagerie</a>
             <a href="<?= BASE_URL ?>profile/index">Mon compte</a>
             <a href="<?= BASE_URL ?>auth/logout">Déconnexion</a>
         <?php else: ?>

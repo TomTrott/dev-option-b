@@ -237,3 +237,24 @@
         padding: 20px;
     }
 }
+
+.profile-books-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.btn-add {
+    background-color: #00AC66;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.btn-add:hover {
+    background-color: #019e5c;
+}

@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /Ingremeau_Tom_Option_B/public/
+RewriteBase /Ingremeau_Tom_Option_B_4_repo_20032026/public/
 
 # Si le fichier ou dossier existe, ne rien faire
 RewriteCond %{REQUEST_FILENAME} !-f

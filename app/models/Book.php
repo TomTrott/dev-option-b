@@ -27,10 +27,15 @@ class Book extends Model {
 
     // Récupère un livre
     public function find($id) {
-        $stmt = $this->db->prepare("SELECT * FROM books WHERE id = ?");
-        $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+    $stmt = $this->db->prepare("
+        SELECT books.*, users.username 
+        FROM books 
+        JOIN users ON users.id = books.user_id
+        WHERE books.id = ?
+    ");
+    $stmt->execute([$id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
 
     // Met à jour un livre
     public function update($id, $title, $author, $description) {

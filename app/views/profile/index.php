@@ -46,6 +46,11 @@
 
     <!-- TABLE LIVRES -->
     <div class="profile-books">
+
+    <div class="profile-books-header">
+        <h3>Ma bibliothèque</h3>
+        <a href="<?= BASE_URL ?>books/create" class="btn-add">+ Ajouter un livre</a>
+    </div>
         <table>
             <thead>
                 <tr>
