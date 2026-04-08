@@ -227,6 +227,21 @@
     color: #fff;
 }
 
+.btn-delete {
+    color: #fff;
+    background-color: #e74c3c;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-left: 5px;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .edit-book-page {

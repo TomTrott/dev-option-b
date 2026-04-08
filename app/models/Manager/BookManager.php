@@ -22,10 +22,12 @@ class BookManager extends Model {
     }
 
 //supprime un livre
-    public function delete($id, $user_id) {
-        $stmt = $this->db->prepare("DELETE FROM books WHERE id = ? AND user_id = ?");
-        return $stmt->execute([$id, $user_id]);
-    }
+    public function delete($id)
+{
+    $stmt = $this->db->prepare("DELETE FROM books WHERE id = :id");
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    return $stmt->execute();
+}
 
 //met à jour un livre
     public function update(Book $book) {

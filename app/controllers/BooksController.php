@@ -3,17 +3,24 @@
 require_once __DIR__ . '/../../core/Controller.php';
 require_once __DIR__ . '/../models/Manager/BookManager.php';
 
-class BooksController extends Controller {
+class BooksController extends Controller 
+{
+    private $bookManager;
 
-    public function edit() {
+    public function __construct()
+    {
+        $this->bookManager = new BookManager();
+    }
 
+    // Éditer un livre
+    public function edit() 
+    {
         if (!isset($_SESSION['user_id'])) {
             header('Location: ' . BASE_URL . 'auth/login');
             exit;
         }
 
-        $bookManager = new BookManager();
-        $livre = $bookManager->find($_GET['id']);
+        $livre = $this->bookManager->find($_GET['id']);
 
         if (!$livre || $livre->getUserId() != $_SESSION['user_id']) {
             header('Location: ' . BASE_URL . 'profile');
@@ -23,77 +30,117 @@ class BooksController extends Controller {
         $this->view('books/edit', ['livre' => $livre]);
     }
 
-    public function update() {
+    // Mettre à jour un livre
+    public function update() 
+    {
+        if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
+            exit;
+        }
 
+        $livre = $this->bookManager->find($_POST['id']);
+
+        if (!$livre || $livre->getUserId() != $_SESSION['user_id']) {
+            exit;
+        }
+
+        $livre->setTitle($_POST['title']);
+        $livre->setAuthor($_POST['author']);
+        $livre->setDescription($_POST['description']);
+
+        $this->bookManager->update($livre);
+
+        header('Location: ' . BASE_URL . 'profile');
+        exit;
+    }
+
+    // Supprimer un livre
+    public function delete()
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . BASE_URL . 'auth/login');
+            exit;
+        }
+
+        $bookId = $_GET['id'] ?? null;
+
+        if (!$bookId) {
+            $_SESSION['error'] = "Livre introuvable.";
+            header('Location: ' . BASE_URL . 'profile');
+            exit;
+        }
+
+        $livre = $this->bookManager->find($bookId);
+
+        if (!$livre) {
+            $_SESSION['error'] = "Livre introuvable.";
+            header('Location: ' . BASE_URL . 'profile');
+            exit;
+        }
+
+        if ($livre->getUserId() != $_SESSION['user_id']) {
+            $_SESSION['error'] = "Vous n'avez pas la permission de supprimer ce livre.";
+            header('Location: ' . BASE_URL . 'profile');
+            exit;
+        }
+
+        // Supprime l'image si elle existe
+        $imagePath = __DIR__ . '/../../public/uploads/' . $livre->getImage();
+        if ($livre->getImage() && file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+
+        $this->bookManager->delete($bookId);
+
+        $_SESSION['success'] = "Livre supprimé avec succès.";
+        header('Location: ' . BASE_URL . 'profile');
+        exit;
+    }
+
+    // Rendre un livre disponible ou indisponible
+    public function toggleAvailability() 
+    {
         if (!isset($_SESSION['user_id'])) {
             exit;
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $livre = $this->bookManager->find($_GET['id']);
 
-            $bookManager = new BookManager();
-            $livre = $bookManager->find($_POST['id']);
-
-            if (!$livre || $livre->getUserId() != $_SESSION['user_id']) {
-                exit;
-            }
-
-            $livre->setTitle($_POST['title']);
-            $livre->setAuthor($_POST['author']);
-            $livre->setDescription($_POST['description']);
-
-            $bookManager->update($livre);
-
-            header('Location: ' . BASE_URL . 'profile');
-            exit;
+        if ($livre && $livre->getUserId() == $_SESSION['user_id']) {
+            $isAvailable = (int) $_GET['isAvailable'];
+            $this->bookManager->updateAvailability($_GET['id'], $isAvailable);
         }
+
+        header('Location: ' . BASE_URL . 'profile');
+        exit;
     }
 
-    public function toggleAvailability() {
-    $bookManager = new BookManager();
-    $livre = $bookManager->find($_GET['id']);
-
-    if ($livre->getUserId() == $_SESSION['user_id']) {
-        // Cast en int pour éviter le TypeError
-        $isAvailable = (int) $_GET['isAvailable'];
-        $bookManager->updateAvailability($_GET['id'], $isAvailable);
-    }
-
-    header('Location: ' . BASE_URL . 'profile');
-}
-
-    public function show() {
-
-        $bookManager = new BookManager();
-        $livre = $bookManager->find($_GET['id']);
-
+    // Afficher les détails d'un livre
+    public function show() 
+    {
+        $livre = $this->bookManager->find($_GET['id']);
         $this->view('books/view', ['livre' => $livre]);
     }
 
-    public function create() {
+    // Afficher le formulaire de création
+    public function create() 
+    {
         $this->view('books/create');
     }
 
-    public function store() {
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Ajouter un livre
+    public function store() 
+    {
+        if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
+            exit;
+        }
 
         $imageName = null;
 
         if (!empty($_FILES['image']['name'])) {
-            // Nettoyage du nom de fichier
             $originalName = $_FILES['image']['name'];
-            
-            //Remplacer les espaces par des underscores
             $cleanName = str_replace(' ', '_', $originalName);
-
-            //Supprimer les accents et caractères
             $cleanName = iconv('UTF-8', 'ASCII//TRANSLIT', $cleanName);
-
-            //Supprimer tout caractère sauf . _ -
             $cleanName = preg_replace('/[^A-Za-z0-9\._-]/', '', $cleanName);
-
-            //pour éviter les doublons
             $imageName = time() . '_' . $cleanName;
 
             move_uploaded_file(
@@ -102,7 +149,6 @@ class BooksController extends Controller {
             );
         }
 
-        // Création de l'objet Book
         $book = new Book([
             'user_id' => $_SESSION['user_id'],
             'title' => $_POST['title'],
@@ -111,13 +157,9 @@ class BooksController extends Controller {
             'image' => $imageName
         ]);
 
-        // Sauvegarde dans la BDD
-        $bookManager = new BookManager();
-        $bookManager->create($book);
+        $this->bookManager->create($book);
 
-        // Redirection vers le profil
         header('Location: ' . BASE_URL . 'profile');
         exit;
     }
-}
 }

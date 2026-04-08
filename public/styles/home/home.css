@@ -129,6 +129,7 @@ body {
 
 .book-info {
     padding: 10px;
+    text-align: left; /* Aligne le texte à gauche */
 }
 
 .book-info h3 {

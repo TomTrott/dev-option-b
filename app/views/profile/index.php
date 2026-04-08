@@ -84,11 +84,16 @@
                                 </span>
                             </td>
                             <td>
-                                <a href="<?= BASE_URL ?>books/edit?id=<?= $livre->getId() ?>">Éditer</a>
-                                <a href="<?= BASE_URL ?>books/toggleAvailability?id=<?= $livre->getId() ?>&isAvailable=<?= !$livre->getIsAvailable() ?>">
-                                    <?= $livre->getIsAvailable() ? 'Rendre indisponible' : 'Rendre disponible' ?>
-                                </a>
-                            </td>
+    <a href="<?= BASE_URL ?>books/edit?id=<?= $livre->getId() ?>">Éditer</a>
+    <a href="<?= BASE_URL ?>books/toggleAvailability?id=<?= $livre->getId() ?>&isAvailable=<?= !$livre->getIsAvailable() ?>">
+        <?= $livre->getIsAvailable() ? 'Rendre indisponible' : 'Rendre disponible' ?>
+    </a>
+    <a href="<?= BASE_URL ?>books/delete?id=<?= $livre->getId() ?>" 
+       onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');"
+       class="btn-delete">
+        Supprimer
+    </a>
+</td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
