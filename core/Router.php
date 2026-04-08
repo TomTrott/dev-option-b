@@ -32,7 +32,7 @@ class Router {
             ? ucfirst($segments[0]) . 'Controller'
             : 'HomeController';
 
-        // 3/ méthode (par défaut index)
+        // 3/ méthode 
         $methode = !empty($segments[1]) 
             ? $segments[1]
             : 'index';
