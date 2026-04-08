@@ -6,21 +6,23 @@
 
     <!-- IMAGE -->
     <div class="book-image">
-        <img src="<?= BASE_URL ?>uploads/<?= $livre['image'] ?>" alt="">
+        <?php if ($livre->getImage()): ?>
+            <img src="<?= BASE_URL ?>uploads/<?= $livre->getImage() ?>" alt="<?= htmlspecialchars($livre->getTitle()) ?>">
+        <?php endif; ?>
     </div>
 
     <!-- INFOS -->
     <div class="book-content">
 
-        <h1><?= htmlspecialchars($livre['title']) ?></h1>
-        <p class="author">par <?= htmlspecialchars($livre['author']) ?></p>
+        <h1><?= htmlspecialchars($livre->getTitle()) ?></h1>
+        <p class="author">par <?= htmlspecialchars($livre->getAuthor()) ?></p>
 
         <div class="separator"></div>
 
         <h4>DESCRIPTION</h4>
 
         <p class="description">
-            <?= nl2br(htmlspecialchars($livre['description'])) ?>
+            <?= nl2br(htmlspecialchars($livre->getDescription())) ?>
         </p>
 
         <!-- PROPRIETAIRE -->
@@ -29,21 +31,21 @@
 
             <div class="owner-box">
                 <div class="avatar"></div>
-                <span><?= htmlspecialchars($livre['username']) ?></span>
+                <span><?= htmlspecialchars($livre->getUsername() ?? 'Inconnu') ?></span>
             </div>
         </div>
 
-        <?php if ($livre['user_id'] != $_SESSION['user_id']): ?>
+        <?php if ($livre->getUserId() != $_SESSION['user_id']): ?>
 
-    <a href="<?= BASE_URL ?>messages/start?user=<?= $livre['user_id'] ?>" class="btn-contact">
-        Envoyer un message
-    </a>
+            <a href="<?= BASE_URL ?>messages/start?user=<?= $livre->getUserId() ?>" class="btn-contact">
+                Envoyer un message
+            </a>
 
-<?php else: ?>
+        <?php else: ?>
 
-    <p class="own-book">C'est votre livre</p>
+            <p class="own-book">C'est votre livre</p>
 
-<?php endif; ?>
+        <?php endif; ?>
 
     </div>
 
