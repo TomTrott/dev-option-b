@@ -35,7 +35,7 @@
         <div class="book-info">
             <h3><?= htmlspecialchars($livre->getTitle()) ?></h3>
             <p>Auteur: <em><?= htmlspecialchars($livre->getAuthor()) ?></em></p>
-            <p class="seller">Vendu par : <?= htmlspecialchars($livre->getUsername() ?? 'Inconnu') ?></p>
+            <p class="seller">Vendu par : <?= htmlspecialchars($livre->getUsername() ?? 'Inconnu') ?></p> //gestion d'erreur si username est null
         </div>
     </div>
 <?php endforeach; ?>

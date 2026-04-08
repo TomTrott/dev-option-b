@@ -86,4 +86,25 @@ $stmt->execute();
 
     return $books;
 }
+
+//ajout de la méthodes getAvailableBooks pour récupérer les livres disponibles à l'échange comme avant
+public function getAvailableBooks() {
+    $stmt = $this->db->prepare("
+        SELECT books.*, users.username
+        FROM books
+        JOIN users ON books.user_id = users.id
+        WHERE books.is_available = 1
+        ORDER BY books.created_at DESC
+    ");
+    $stmt->execute();
+
+    $books = [];
+    while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $book = new Book($data);
+        $book->setUsername($data['username']); // hydrate le username
+        $books[] = $book;
+    }
+
+    return $books;
+}
 }

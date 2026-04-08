@@ -13,7 +13,7 @@
                 type="text"
                 name="search"
                 placeholder="Rechercher un livre"
-                value="<?= $_GET['search'] ?? '' ?>"
+                value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
             >
         </form>
     </div>
@@ -22,15 +22,15 @@
     <div class="exchange-books">
         <?php if (!empty($livres)): ?>
             <?php foreach ($livres as $livre): ?>
-                <div class="book-card" onclick="window.location.href='<?= BASE_URL ?>books/show?id=<?= $livre['id'] ?>'">
-                    <?php if ($livre['image']): ?>
-                        <img src="<?= BASE_URL ?>uploads/<?= $livre['image'] ?>" alt="<?= htmlspecialchars($livre['title']) ?>">
+                <div class="book-card" onclick="window.location.href='<?= BASE_URL ?>books/show?id=<?= $livre->getId() ?>'">
+                    <?php if ($livre->getImage()): ?>
+                        <img src="<?= BASE_URL ?>uploads/<?= $livre->getImage() ?>" alt="<?= htmlspecialchars($livre->getTitle()) ?>">
                     <?php endif; ?>
 
                     <div class="book-info">
-                        <h3><?= htmlspecialchars($livre['title']) ?></h3>
-                        <p><?= htmlspecialchars($livre['author']) ?></p>
-                        <p class="seller">Vendu par : <?= htmlspecialchars($livre['username']) ?></p>
+                        <h3><?= htmlspecialchars($livre->getTitle()) ?></h3>
+                        <p><?= htmlspecialchars($livre->getAuthor()) ?></p>
+                        <p class="seller">Vendu par : <?= htmlspecialchars($livre->getUsername() ?? 'Inconnu') ?></p>
                     </div>
                 </div>
             <?php endforeach; ?>
