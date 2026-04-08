@@ -6,11 +6,14 @@
     <h2 class="page-title">Mon compte</h2>
 
     <div class="profile-top">
+
         <!-- CARD GAUCHE -->
         <div class="profile-left">
             <div class="avatar"></div>
             <p class="edit-link">modifier</p>
+
             <hr>
+
             <h3><?= htmlspecialchars($user->getUsername()) ?></h3>
 
             <?php
@@ -26,31 +29,41 @@
                 $membreDepuis = $interval->d . ' jour' . ($interval->d > 1 ? 's' : '');
             }
             ?>
+
             <p class="member">Membre depuis <?= $membreDepuis ?></p>
-            <p class="library-count"><?= count($livres ?? []) ?> livres</p>
+
+            <p class="library-count">
+                BIBLIOTHÈQUE<br>
+                <?= count($livres ?? []) ?> livres
+            </p>
         </div>
 
         <!-- CARD DROITE -->
         <div class="profile-right">
             <h3>Vos informations personnelles</h3>
+
             <form method="POST" action="<?= BASE_URL ?>profile/update">
-                <label>Pseudo</label>
-                <input type="text" name="username" value="<?= htmlspecialchars($user->getUsername()) ?>" required>
 
-                <label>Bio</label>
-                <textarea name="bio" rows="4"><?= htmlspecialchars($user->getBio() ?? '') ?></textarea>
+    <label>Adresse email</label>
+    <input type="email" name="email"
+           value="<?= htmlspecialchars($user->getEmail()) ?>" required>
 
-                <button type="submit">Enregistrer</button>
-            </form>
+    <label>Nouveau mot de passe</label>
+    <input type="password" name="password" placeholder="Laisser vide si inchangé">
+
+    <label>Pseudo</label>
+    <input type="text" name="username"
+           value="<?= htmlspecialchars($user->getUsername()) ?>" required>
+
+    <button type="submit">Enregistrer</button>
+</form>
         </div>
+
     </div>
 
     <!-- TABLE LIVRES -->
     <div class="profile-books">
-        <div class="profile-books-header">
-            <h3>Ma bibliothèque</h3>
-            <a href="<?= BASE_URL ?>books/create" class="btn-add">+ Ajouter un livre</a>
-        </div>
+
         <table>
             <thead>
                 <tr>
@@ -62,38 +75,38 @@
                     <th>Action</th>
                 </tr>
             </thead>
+
             <tbody>
                 <?php if (!empty($livres)): ?>
                     <?php foreach ($livres as $livre): ?>
                         <tr>
+
                             <td>
-                                <?php if (!empty($livre->getImage())): ?>
-                                    <img src="<?= BASE_URL ?>uploads/<?= $livre->getImage() ?>" alt="">
-                                <?php endif; ?>
-                            </td>
-                            <td><?= htmlspecialchars($livre->getTitle()) ?></td>
-                            <td><?= htmlspecialchars($livre->getAuthor()) ?></td>
-                            <td>
-                                <?= !empty($livre->getDescription())
-                                    ? htmlspecialchars(substr($livre->getDescription(), 0, 80)) . '...'
-                                    : '-' ?>
-                            </td>
+    <?php if (!empty($livre->getImage())): ?>
+        <img src="<?= BASE_URL ?>uploads/<?= $livre->getImage() ?>" alt="">
+    <?php endif; ?>
+</td>
+<td><?= htmlspecialchars($livre->getTitle()) ?></td>
+<td><?= htmlspecialchars($livre->getAuthor()) ?></td>
+<td>
+    <?= !empty($livre->getDescription())
+        ? htmlspecialchars(substr($livre->getDescription(), 0, 90)) . '...'
+        : '-' ?>
+</td>
+
                             <td>
                                 <span class="status <?= $livre->getIsAvailable() ? 'ok' : 'no' ?>">
-                                    <?= $livre->getIsAvailable() ? 'disponible' : 'non dispo.' ?>
+                                    <?= $livre->getIsAvailable() ? 'disponible' : 'non disponible' ?>
                                 </span>
                             </td>
+
                             <td>
-    <a href="<?= BASE_URL ?>books/edit?id=<?= $livre->getId() ?>">Éditer</a>
-    <a href="<?= BASE_URL ?>books/toggleAvailability?id=<?= $livre->getId() ?>&isAvailable=<?= !$livre->getIsAvailable() ?>">
-        <?= $livre->getIsAvailable() ? 'Rendre indisponible' : 'Rendre disponible' ?>
-    </a>
-    <a href="<?= BASE_URL ?>books/delete?id=<?= $livre->getId() ?>" 
-       onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');"
-       class="btn-delete">
-        Supprimer
-    </a>
-</td>
+                                <a href="<?= BASE_URL ?>books/edit?id=<?= $livre->getId() ?>">Éditer</a>
+                                <a href="<?= BASE_URL ?>books/delete?id=<?= $livre->getId() ?>"
+                                   onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');"
+                                   class="btn-delete">Supprimer</a>
+                            </td>
+
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
@@ -103,6 +116,12 @@
                 <?php endif; ?>
             </tbody>
         </table>
+
+        <!-- BOUTON AJOUTER LIVRE À CÔTÉ DE LA TABLE -->
+        <div style="text-align:right; margin-top: 15px;">
+            <a href="<?= BASE_URL ?>books/create" class="btn-add">+ Ajouter un livre</a>
+        </div>
+
     </div>
 </div>
 

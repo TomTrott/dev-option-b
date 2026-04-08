@@ -1,26 +1,32 @@
 <?php require_once __DIR__ . '/../layout/header.php'; ?>
+<link rel="stylesheet" href="<?= BASE_URL ?>styles/profil/profil.css">
 
-<link rel="stylesheet" href="<?= BASE_URL ?>styles/books/books.css">
+<div class="edit-book-page">
+    <h2>Ajouter un livre</h2>
 
-<div class="form-container">
-    <div class="form-card">
+    <form method="POST" action="<?= BASE_URL ?>books/store" enctype="multipart/form-data">
 
-        <h2>Ajouter un livre</h2>
+        <label>Titre</label>
+        <input type="text" name="title" required>
 
-        <form method="POST" action="<?= BASE_URL ?>books/store" enctype="multipart/form-data">
+        <label>Auteur</label>
+        <input type="text" name="author" required>
 
-            <input type="text" name="title" placeholder="Titre" required>
-            <input type="text" name="author" placeholder="Auteur" required>
+        <label>Description</label>
+        <textarea name="description" rows="4"></textarea>
 
-            <textarea name="description" placeholder="Description"></textarea>
+        <label>Image</label>
+        <input type="file" name="image">
 
-            <input type="file" name="image">
+        <label>Disponibilité</label>
+        <select name="isAvailable">
+            <option value="1">Disponible</option>
+            <option value="0">Indisponible</option>
+        </select>
 
-            <button type="submit">Ajouter</button>
+        <button type="submit">Ajouter</button>
 
-        </form>
-
-    </div>
+    </form>
 </div>
 
 <?php require_once __DIR__ . '/../layout/footer.php'; ?>

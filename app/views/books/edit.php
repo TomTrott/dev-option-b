@@ -5,27 +5,28 @@
     <h2>Modifier le livre</h2>
 
     <form method="POST" action="<?= BASE_URL ?>books/update" enctype="multipart/form-data">
-        <!-- ID du livre -->
-        <input type="hidden" name="id" value="<?= $livre->getId() ?>">
+    <input type="hidden" name="id" value="<?= $livre->getId() ?>">
 
-        <!-- Titre -->
-        <label>Titre</label>
-        <input type="text" name="title" value="<?= htmlspecialchars($livre->getTitle()) ?>" required>
+    <label>Titre</label>
+    <input type="text" name="title" value="<?= htmlspecialchars($livre->getTitle()) ?>" required>
 
-        <!-- Auteur -->
-        <label>Auteur</label>
-        <input type="text" name="author" value="<?= htmlspecialchars($livre->getAuthor()) ?>" required>
+    <label>Auteur</label>
+    <input type="text" name="author" value="<?= htmlspecialchars($livre->getAuthor()) ?>" required>
 
-        <!-- Description -->
-        <label>Description</label>
-        <textarea name="description" rows="4" required><?= htmlspecialchars($livre->getDescription()) ?></textarea>
+    <label>Description</label>
+    <textarea name="description" rows="4" required><?= htmlspecialchars($livre->getDescription()) ?></textarea>
 
-        <!-- Optionnel : ajouter un champ pour modifier l'image -->
-        <label>Image (optionnel)</label>
-        <input type="file" name="image">
+    <label>Image (optionnel)</label>
+    <input type="file" name="image">
 
-        <button type="submit">Enregistrer</button>
-    </form>
+    <label>Disponibilité</label>
+    <select name="isAvailable">
+        <option value="1" <?= $livre->getIsAvailable() ? 'selected' : '' ?>>Disponible</option>
+        <option value="0" <?= !$livre->getIsAvailable() ? 'selected' : '' ?>>Indisponible</option>
+    </select>
+
+    <button type="submit">Enregistrer</button>
+</form>
 </div>
 
 <?php require_once __DIR__ . '/../layout/footer.php'; ?>

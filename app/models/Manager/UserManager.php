@@ -33,16 +33,33 @@ class UserManager extends Model {
         ]);
     }
 //met à jour le profil 
-    public function updateProfile(User $user) {
+   public function updateProfile(User $user, $updatePassword = false) {
+
+    if ($updatePassword) {
         $stmt = $this->db->prepare("
-            UPDATE users SET username = ?, bio = ?
+            UPDATE users 
+            SET username = ?, email = ?, password = ?
             WHERE id = ?
         ");
 
         return $stmt->execute([
             $user->getUsername(),
-            $user->getBio(),
+            $user->getEmail(),
+            $user->getPassword(),
             $user->getId()
         ]);
     }
+
+    $stmt = $this->db->prepare("
+        UPDATE users 
+        SET username = ?, email = ?
+        WHERE id = ?
+    ");
+
+    return $stmt->execute([
+        $user->getUsername(),
+        $user->getEmail(),
+        $user->getId()
+    ]);
+}
 }

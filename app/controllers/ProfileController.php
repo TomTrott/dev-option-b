@@ -38,34 +38,29 @@ class ProfileController extends Controller {
         $this->view('profile/edit', ['user' => $utilisateur]);
     }
 
-    public function update() {
-        if (!isset($_SESSION['user_id'])) {
-            header('Location: ' . BASE_URL . 'auth/login');
-            exit;
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nom = trim($_POST['username'] ?? '');
-            $bio = trim($_POST['bio'] ?? '');
-
-            if (empty($nom)) {
-                header('Location: ' . BASE_URL . 'profile/edit');
-                exit;
-            }
-
-            $userManager = new UserManager();
-            $user = $userManager->findById($_SESSION['user_id']);
-
-            $user->setUsername($nom);
-            $user->setBio($bio);
-
-            $userManager->updateProfile($user);
-
-            header('Location: ' . BASE_URL . 'profile');
-            exit;
-        }
-
-        header('Location: ' . BASE_URL . 'profile/edit');
+    public function update() 
+{
+    if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
         exit;
     }
+
+    $userManager = new UserManager();
+$user = $userManager->findById($_SESSION['user_id']);
+
+$user->setUsername($_POST['username']);
+$user->setEmail($_POST['email']);
+
+$updatePassword = false;
+
+if (!empty($_POST['password'])) {
+    $hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $user->setPassword($hashedPassword);
+    $updatePassword = true;
+}
+
+$userManager->updateProfile($user, $updatePassword);
+
+header('Location: ' . BASE_URL . 'profile');
+exit;
+}
 }

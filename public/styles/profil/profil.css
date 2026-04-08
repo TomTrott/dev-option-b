@@ -1,102 +1,140 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* GLOBAL */
+body {
+    background-color: #F5F3EF;
+    font-family: 'Inter', sans-serif;
+    color: #2E2E2E;
+}
 
 /* TITRE */
 .page-title {
     font-family: 'Playfair Display', serif;
-    font-size: 32px;
-    margin: 40px 80px;
+    font-size: 36px;
+    font-weight: 500;
+    margin: 60px 80px 40px;
 }
 
-/* LAYOUT TOP */
+/* LAYOUT */
 .profile-top {
     display: flex;
-    gap: 30px;
+    gap: 40px;
     padding: 0 80px;
 }
 
-/* CARD GAUCHE */
+/* CARDS */
+.profile-left,
+.profile-right,
+.profile-books {
+    background: #FFFFFF;
+    border-radius: 24px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.04);
+}
+
+/* LEFT CARD */
 .profile-left {
-    background: #fff;
     flex: 1;
-    padding: 40px;
-    border-radius: 20px;
+    padding: 50px 40px;
     text-align: center;
 }
 
-/* avatar rond */
 .avatar {
-    width: 120px;
-    height: 120px;
+    width: 130px;
+    height: 130px;
     border-radius: 50%;
     background: url("../../uploads/default.jpg") center/cover;
     margin: auto;
 }
 
-/* lien modifier */
 .edit-link {
-    color: #777;
-    font-size: 14px;
-    margin: 10px 0;
+    font-size: 13px;
+    color: #A0A0A0;
+    margin-top: 12px;
+    cursor: pointer;
 }
 
-/* ligne */
 .profile-left hr {
-    margin: 20px 0;
+    margin: 30px 0;
     border: none;
     height: 1px;
-    background: #eee;
+    background: #F0F0F0;
 }
 
 .profile-left h3 {
-    font-family: 'Playfair Display';
-    font-size: 22px;
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 500;
+    margin-bottom: 5px;
 }
 
 .member {
-    color: #777;
     font-size: 14px;
+    color: #A0A0A0;
 }
 
 .library-count {
-    margin-top: 10px;
-    font-size: 14px;
+    margin-top: 25px;
+    font-size: 13px;
+    color: #666;
+    letter-spacing: 1px;
 }
 
-/* CARD DROITE */
+/*RIGHT CARD */
 .profile-right {
-    background: #fff;
     flex: 1;
-    padding: 40px;
-    border-radius: 20px;
+    padding: 50px 40px;
 }
 
 .profile-right h3 {
-    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 30px;
 }
 
 /* FORM */
 .profile-right form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 18px;
 }
 
-.profile-right input {
-    padding: 12px;
-    border-radius: 8px;
+.profile-right label {
+    font-size: 13px;
+    color: #9A9A9A;
+}
+
+.profile-right input,
+.profile-right textarea {
+    padding: 16px;
+    border-radius: 12px;
     border: none;
-    background: #eee;
+    background: #EEF1F4;
+    font-size: 14px;
+    color: #333;
 }
 
-/* bouton */
+.profile-right textarea {
+    resize: none;
+}
+
+/* BUTTON */
 .profile-right button {
-    width: fit-content;
-    padding: 10px 20px;
-    border-radius: 8px;
+    margin-top: 10px;
+    padding: 14px 26px;
+    border-radius: 12px;
     border: 1px solid #00AC66;
     background: transparent;
     color: #00AC66;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
-    transition: 0.3s;
+    width: fit-content;
+    transition: all 0.25s ease;
 }
 
 .profile-right button:hover {
@@ -104,67 +142,136 @@
     color: #fff;
 }
 
-/* TABLE */
+/* BOOKS SECTION */
 .profile-books {
-    margin: 40px 80px;
-    background: #fff;
-    border-radius: 20px;
-    overflow: hidden;
+    margin: 60px 80px;
+    padding: 30px;
 }
 
+/* HEADER */
+.profile-books-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-books-header h3 {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* TABLE */
 .profile-books table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.profile-books th,
-.profile-books td {
-    padding: 15px;
-    text-align: left;
-}
-
-/* header */
 .profile-books thead {
-    background: #f0f0f0;
-    font-size: 13px;
+    border-bottom: 1px solid #F0F0F0;
 }
 
-/* image */
+.profile-books th {
+    font-size: 11px;
+    color: #A0A0A0;
+    text-transform: uppercase;
+    padding: 15px;
+}
+
+/* Alignement général des cellules */
+.profile-books td {
+    vertical-align: top; 
+    text-align: center; 
+    padding: 18px 15px;
+    font-size: 14px;
+    border-bottom: 1px solid #F7F7F7;
+}
+
+/* Style pour les images en carré et centrées */
 .profile-books img {
-    width: 50px;
-    height: 70px;
+    width: 55px;
+    height: 55px; 
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 8px;
+    display: block; 
+    margin: 0 auto; 
 }
 
-/* status */
+/* Limiter la description à 3 lignes max et centrer */
+.profile-books td:nth-child(4) {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+    text-align: center; 
+    margin: 0 auto;
+}
+
+/* Alignement des boutons "Éditer" et "Supprimer" */
+.profile-books td:last-child {
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* STATUS */
 .status {
-    padding: 5px 10px;
-    border-radius: 20px;
+    padding: 6px 14px;
+    border-radius: 50px;
     font-size: 12px;
-    color: white;
+    font-weight: 500;
 }
 
 .status.ok {
     background: #00AC66;
+    color: #ffffff;
 }
 
 .status.no {
     background: #F67280;
+    color: #ffffff;
 }
 
-/* actions */
+/* ACTIONS */
 .profile-books a {
+    font-size: 14px;
+    text-decoration: underline;
     margin-right: 10px;
+}
+
+/* Lien éditer */
+.profile-books a:not(.btn-delete) {
+    color: #666;
+}
+
+/* Bouton supprimer */
+.btn-delete {
+    color: #ff4d4d;
+}
+
+/* Hover supprimer */
+.btn-delete:hover {
+    color: #b30000;
+}
+
+/* ADD BUTTON */
+.btn-add {
+    background-color: #00AC66;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 8px;
     text-decoration: none;
-    color: #333;
+    font-size: 14px;
+    transition: 0.3s;
 }
 
-.profile-books a.delete {
-    color: red;
+.btn-add:hover {
+    background-color: #019e5c;
 }
 
-/* EDIT BOOK PAGE */
+/* EDIT BOOK PAGE*/
 .edit-book-page {
     background-color: #F5F3EF;
     padding: 40px 80px;
@@ -190,7 +297,6 @@
 }
 
 .edit-book-page label {
-    font-family: 'Inter', sans-serif;
     font-size: 14px;
     font-weight: 500;
     color: #333;
@@ -202,7 +308,6 @@
     border-radius: 8px;
     border: 1px solid #ddd;
     background: #eee;
-    font-family: 'Inter', sans-serif;
     font-size: 14px;
     resize: vertical;
     min-height: 100px;
@@ -218,7 +323,6 @@
     cursor: pointer;
     transition: 0.3s;
     align-self: flex-end;
-    font-family: 'Inter', sans-serif;
     font-weight: 500;
 }
 
@@ -227,23 +331,22 @@
     color: #fff;
 }
 
-.btn-delete {
-    color: #fff;
-    background-color: #e74c3c;
-    padding: 5px 10px;
-    border-radius: 5px;
-    text-decoration: none;
-    margin-left: 5px;
-    font-size: 14px;
-    transition: background 0.3s;
-}
-
-.btn-delete:hover {
-    background-color: #c0392b;
-}
-
-/* Responsive */
+/* RESPONSIVE */
 @media (max-width: 768px) {
+    .page-title {
+        margin: 30px 20px;
+    }
+
+    .profile-top {
+        flex-direction: column;
+        padding: 0 20px;
+    }
+
+    .profile-books {
+        margin: 30px 20px;
+        padding: 20px;
+    }
+
     .edit-book-page {
         padding: 20px;
     }
@@ -251,25 +354,4 @@
     .edit-book-page form {
         padding: 20px;
     }
-}
-
-.profile-books-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.btn-add {
-    background-color: #00AC66;
-    color: #fff;
-    padding: 10px 16px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 14px;
-    transition: 0.3s;
-}
-
-.btn-add:hover {
-    background-color: #019e5c;
 }

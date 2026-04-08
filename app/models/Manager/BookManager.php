@@ -31,18 +31,21 @@ class BookManager extends Model {
 
 //met à jour un livre
     public function update(Book $book) {
-        $stmt = $this->db->prepare("
-            UPDATE books SET title = ?, author = ?, description = ?
-            WHERE id = ?
-        ");
+    $stmt = $this->db->prepare("
+        UPDATE books 
+        SET title = ?, author = ?, description = ?, image = ?, is_available = ?
+        WHERE id = ?
+    ");
 
-        return $stmt->execute([
-            $book->getTitle(),
-            $book->getAuthor(),
-            $book->getDescription(),
-            $book->getId()
-        ]);
-    }
+    return $stmt->execute([
+        $book->getTitle(),
+        $book->getAuthor(),
+        $book->getDescription(),
+        $book->getImage(),
+        $book->getIsAvailable(),
+        $book->getId()
+    ]);
+}
 
     //trouve un livre par son id
     public function find($id) {

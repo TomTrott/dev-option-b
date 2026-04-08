@@ -32,26 +32,59 @@ class BooksController extends Controller
 
     // Mettre à jour un livre
     public function update() 
-    {
-        if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
-            exit;
-        }
-
-        $livre = $this->bookManager->find($_POST['id']);
-
-        if (!$livre || $livre->getUserId() != $_SESSION['user_id']) {
-            exit;
-        }
-
-        $livre->setTitle($_POST['title']);
-        $livre->setAuthor($_POST['author']);
-        $livre->setDescription($_POST['description']);
-
-        $this->bookManager->update($livre);
-
-        header('Location: ' . BASE_URL . 'profile');
+{
+    if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
         exit;
     }
+
+    $livre = $this->bookManager->find($_POST['id']);
+
+    if (!$livre || $livre->getUserId() != $_SESSION['user_id']) {
+        exit;
+    }
+
+    // Mise à jour des champs texte
+    $livre->setTitle($_POST['title']);
+    $livre->setAuthor($_POST['author']);
+    $livre->setDescription($_POST['description']);
+
+    // 🔹 Gestion disponibilité
+    $isAvailable = isset($_POST['isAvailable']) ? (int) $_POST['isAvailable'] : 1;
+    $livre->setIsAvailable($isAvailable);
+
+    // 🔹 Gestion image
+    if (!empty($_FILES['image']['name'])) {
+
+        // Supprimer ancienne image
+        if ($livre->getImage()) {
+            $oldPath = __DIR__ . '/../../public/uploads/' . $livre->getImage();
+            if (file_exists($oldPath)) {
+                unlink($oldPath);
+            }
+        }
+
+        // Nettoyage nom fichier
+        $originalName = $_FILES['image']['name'];
+        $cleanName = str_replace(' ', '_', $originalName);
+        $cleanName = iconv('UTF-8', 'ASCII//TRANSLIT', $cleanName);
+        $cleanName = preg_replace('/[^A-Za-z0-9\._-]/', '', $cleanName);
+
+        $imageName = time() . '_' . $cleanName;
+
+        move_uploaded_file(
+            $_FILES['image']['tmp_name'],
+            __DIR__ . '/../../public/uploads/' . $imageName
+        );
+
+        $livre->setImage($imageName);
+    }
+
+    // Sauvegarde
+    $this->bookManager->update($livre);
+
+    header('Location: ' . BASE_URL . 'profile');
+    exit;
+}
 
     // Supprimer un livre
     public function delete()
