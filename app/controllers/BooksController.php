@@ -75,30 +75,48 @@ class BooksController extends Controller {
 
     public function store() {
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $imageName = null;
+        $imageName = null;
 
-            if (!empty($_FILES['image']['name'])) {
-                $imageName = time() . '_' . $_FILES['image']['name'];
-                move_uploaded_file(
-                    $_FILES['image']['tmp_name'],
-                    __DIR__ . '/../../public/uploads/' . $imageName
-                );
-            }
+        if (!empty($_FILES['image']['name'])) {
+            // Nettoyage du nom de fichier
+            $originalName = $_FILES['image']['name'];
+            
+            //Remplacer les espaces par des underscores
+            $cleanName = str_replace(' ', '_', $originalName);
 
-            $book = new Book([
-                'user_id' => $_SESSION['user_id'],
-                'title' => $_POST['title'],
-                'author' => $_POST['author'],
-                'description' => $_POST['description'],
-                'image' => $imageName
-            ]);
+            //Supprimer les accents et caractères
+            $cleanName = iconv('UTF-8', 'ASCII//TRANSLIT', $cleanName);
 
-            $bookManager = new BookManager();
-            $bookManager->create($book);
+            //Supprimer tout caractère sauf . _ -
+            $cleanName = preg_replace('/[^A-Za-z0-9\._-]/', '', $cleanName);
 
-            header('Location: ' . BASE_URL . 'profile');
+            //pour éviter les doublons
+            $imageName = time() . '_' . $cleanName;
+
+            move_uploaded_file(
+                $_FILES['image']['tmp_name'],
+                __DIR__ . '/../../public/uploads/' . $imageName
+            );
         }
+
+        // Création de l'objet Book
+        $book = new Book([
+            'user_id' => $_SESSION['user_id'],
+            'title' => $_POST['title'],
+            'author' => $_POST['author'],
+            'description' => $_POST['description'],
+            'image' => $imageName
+        ]);
+
+        // Sauvegarde dans la BDD
+        $bookManager = new BookManager();
+        $bookManager->create($book);
+
+        // Redirection vers le profil
+        header('Location: ' . BASE_URL . 'profile');
+        exit;
     }
+}
 }
