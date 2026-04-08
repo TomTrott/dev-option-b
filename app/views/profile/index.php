@@ -11,9 +11,10 @@
             <div class="avatar"></div>
             <p class="edit-link">modifier</p>
             <hr>
-            <h3><?= htmlspecialchars($user['username']) ?></h3>
+            <h3><?= htmlspecialchars($user->getUsername()) ?></h3>
+
             <?php
-            $createdAt = new DateTime($user['created_at']);
+            $createdAt = new DateTime($user->getCreatedAt());
             $now = new DateTime();
             $interval = $createdAt->diff($now);
 
@@ -21,7 +22,7 @@
                 $membreDepuis = $interval->y . ' an' . ($interval->y > 1 ? 's' : '');
             } elseif ($interval->m > 0) {
                 $membreDepuis = $interval->m . ' mois';
-            } else {
+            } else { 
                 $membreDepuis = $interval->d . ' jour' . ($interval->d > 1 ? 's' : '');
             }
             ?>
@@ -34,10 +35,10 @@
             <h3>Vos informations personnelles</h3>
             <form method="POST" action="<?= BASE_URL ?>profile/update">
                 <label>Pseudo</label>
-                <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>" required>
+                <input type="text" name="username" value="<?= htmlspecialchars($user->getUsername()) ?>" required>
 
                 <label>Bio</label>
-                <textarea name="bio" rows="4"><?= htmlspecialchars($user['bio'] ?? '') ?></textarea>
+                <textarea name="bio" rows="4"><?= htmlspecialchars($user->getBio() ?? '') ?></textarea>
 
                 <button type="submit">Enregistrer</button>
             </form>
@@ -46,11 +47,10 @@
 
     <!-- TABLE LIVRES -->
     <div class="profile-books">
-
-    <div class="profile-books-header">
-        <h3>Ma bibliothèque</h3>
-        <a href="<?= BASE_URL ?>books/create" class="btn-add">+ Ajouter un livre</a>
-    </div>
+        <div class="profile-books-header">
+            <h3>Ma bibliothèque</h3>
+            <a href="<?= BASE_URL ?>books/create" class="btn-add">+ Ajouter un livre</a>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -67,26 +67,26 @@
                     <?php foreach ($livres as $livre): ?>
                         <tr>
                             <td>
-                                <?php if (!empty($livre['image'])): ?>
-                                    <img src="<?= BASE_URL ?>uploads/<?= $livre['image'] ?>" alt="">
+                                <?php if (!empty($livre->getImage())): ?>
+                                    <img src="<?= BASE_URL ?>uploads/<?= $livre->getImage() ?>" alt="">
                                 <?php endif; ?>
                             </td>
-                            <td><?= htmlspecialchars($livre['title']) ?></td>
-                            <td><?= htmlspecialchars($livre['author']) ?></td>
+                            <td><?= htmlspecialchars($livre->getTitle()) ?></td>
+                            <td><?= htmlspecialchars($livre->getAuthor()) ?></td>
                             <td>
-                                <?= !empty($livre['description'])
-                                    ? htmlspecialchars(substr($livre['description'], 0, 80)) . '...'
+                                <?= !empty($livre->getDescription())
+                                    ? htmlspecialchars(substr($livre->getDescription(), 0, 80)) . '...'
                                     : '-' ?>
                             </td>
                             <td>
-                                <span class="status <?= $livre['is_available'] ? 'ok' : 'no' ?>">
-                                    <?= $livre['is_available'] ? 'disponible' : 'non dispo.' ?>
+                                <span class="status <?= $livre->getIsAvailable() ? 'ok' : 'no' ?>">
+                                    <?= $livre->getIsAvailable() ? 'disponible' : 'non dispo.' ?>
                                 </span>
                             </td>
                             <td>
-                                <a href="<?= BASE_URL ?>books/edit?id=<?= $livre['id'] ?>">Éditer</a>
-                                <a href="<?= BASE_URL ?>books/toggleAvailability?id=<?= $livre['id'] ?>&isAvailable=<?= !$livre['is_available'] ?>">
-                                    <?= $livre['is_available'] ? 'Rendre indisponible' : 'Rendre disponible' ?>
+                                <a href="<?= BASE_URL ?>books/edit?id=<?= $livre->getId() ?>">Éditer</a>
+                                <a href="<?= BASE_URL ?>books/toggleAvailability?id=<?= $livre->getId() ?>&isAvailable=<?= !$livre->getIsAvailable() ?>">
+                                    <?= $livre->getIsAvailable() ? 'Rendre indisponible' : 'Rendre disponible' ?>
                                 </a>
                             </td>
                         </tr>
