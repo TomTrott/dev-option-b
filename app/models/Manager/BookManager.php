@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../core/Model.php';
+require_once __DIR__ . '/../../../core/Model.php';
 require_once __DIR__ . '/../Entity/Book.php';
 //class BookManager
 class BookManager extends Model {

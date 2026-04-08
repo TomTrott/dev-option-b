@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../core/Model.php';
+require_once __DIR__ . '/../../../core/Model.php';
 require_once __DIR__ . '/../Entity/User.php';
 //classe gestion des données utilisateur)
 class UserManager extends Model {
