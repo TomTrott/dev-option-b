@@ -14,22 +14,25 @@
         <?php else: ?>
 
             <?php foreach ($conversations as $conv): ?>
-                <div class="conversation <?= ($currentConv == $conv['id']) ? 'active' : '' ?>"
-                     onclick="window.location.href='<?= BASE_URL ?>messages?conv=<?= $conv['id'] ?>'">
+                <div class="conversation <?= ($currentConv == $conv->getId()) ? 'active' : '' ?>"
+                     onclick="window.location.href='<?= BASE_URL ?>messages?conv=<?= $conv->getId() ?>'">
 
                     <div class="avatar"></div>
 
                     <div class="conv-info">
                         <div class="top">
-                            <span class="name"><?= htmlspecialchars($conv['username']) ?></span>
+                            <!-- Utilisation du getter getUsername() au lieu de l'accès tableau -->
+                            <span class="name"><?= htmlspecialchars($conv->getUsername() ?? 'Inconnu') ?></span>
                             <span class="time">
-                                <?= isset($conv['time']) ? date('H:i', strtotime($conv['time'])) : '' ?>
+                                <!-- Utilisation du getter getTime() -->
+                                <?= $conv->getTime() ? date('H:i', strtotime($conv->getTime())) : '' ?>
                             </span>
                         </div>
 
                         <p>
-                            <?= !empty($conv['last_message']) 
-                                ? htmlspecialchars(substr($conv['last_message'], 0, 30)) . '...' 
+                            <!-- Utilisation du getter getLastMessage() -->
+                            <?= !empty($conv->getLastMessage()) 
+                                ? htmlspecialchars(substr($conv->getLastMessage(), 0, 30)) . '...' 
                                 : 'Aucun message' ?>
                         </p>
                     </div>
@@ -57,9 +60,10 @@
                 <div class="avatar"></div>
                 <span>
                     <?php
+                        // Correction du header pour utiliser les getters
                         foreach ($conversations as $conv) {
-                            if ($conv['id'] == $currentConv) {
-                                echo htmlspecialchars($conv['username']);
+                            if ($conv->getId() == $currentConv) {
+                                echo htmlspecialchars($conv->getUsername() ?? 'Inconnu');
                                 break;
                             }
                         }
@@ -75,24 +79,23 @@
                 <?php else: ?>
 
                     <?php foreach ($messages as $msg): ?>
+                        <div class="message <?= $msg->getSenderId() == $_SESSION['user_id'] ? 'right' : 'left' ?>">
 
-                        <div class="message <?= $msg['sender_id'] == $_SESSION['user_id'] ? 'right' : 'left' ?>">
-
-                            <?php if ($msg['sender_id'] != $_SESSION['user_id']): ?>
+                            <?php if ($msg->getSenderId() != $_SESSION['user_id']): ?>
                                 <div class="avatar small"></div>
                             <?php endif; ?>
 
                             <div>
                                 <span class="time">
-                                    <?= date('d/m H:i', strtotime($msg['created_at'])) ?>
+                                    <?= date('d/m H:i', strtotime($msg->getCreatedAt())) ?>
                                 </span>
 
                                 <div class="bubble">
-                                    <?= htmlspecialchars($msg['content']) ?>
+                                    <?= htmlspecialchars($msg->getContent()) ?>
                                 </div>
 
-                                <?php if ($msg['sender_id'] == $_SESSION['user_id']): ?>
-                                    <a href="<?= BASE_URL ?>messages/delete?id=<?= $msg['id'] ?>&conv=<?= $currentConv ?>" 
+                                <?php if ($msg->getSenderId() == $_SESSION['user_id']): ?>
+                                    <a href="<?= BASE_URL ?>messages/delete?id=<?= $msg->getId() ?>&conv=<?= $currentConv ?>" 
                                        class="delete-msg">
                                         supprimer
                                     </a>
@@ -100,7 +103,6 @@
 
                             </div>
                         </div>
-
                     <?php endforeach; ?>
 
                 <?php endif; ?>
