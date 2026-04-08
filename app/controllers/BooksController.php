@@ -50,16 +50,17 @@ class BooksController extends Controller {
     }
 
     public function toggleAvailability() {
+    $bookManager = new BookManager();
+    $livre = $bookManager->find($_GET['id']);
 
-        $bookManager = new BookManager();
-        $livre = $bookManager->find($_GET['id']);
-
-        if ($livre->getUserId() == $_SESSION['user_id']) {
-            $bookManager->updateAvailability($_GET['id'], $_GET['isAvailable']);
-        }
-
-        header('Location: ' . BASE_URL . 'profile');
+    if ($livre->getUserId() == $_SESSION['user_id']) {
+        // Cast en int pour éviter le TypeError
+        $isAvailable = (int) $_GET['isAvailable'];
+        $bookManager->updateAvailability($_GET['id'], $isAvailable);
     }
+
+    header('Location: ' . BASE_URL . 'profile');
+}
 
     public function show() {
 

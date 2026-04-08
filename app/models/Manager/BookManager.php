@@ -107,4 +107,13 @@ public function getAvailableBooks() {
 
     return $books;
 }
+// rendre indisponible ou dispo 
+public function updateAvailability(int $id, int $isAvailable): bool {
+    $stmt = $this->db->prepare("
+        UPDATE books
+        SET is_available = ?
+        WHERE id = ?
+    ");
+    return $stmt->execute([$isAvailable, $id]);
+}
 }
