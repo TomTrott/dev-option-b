@@ -22,17 +22,17 @@ class Router {
 
     public function route() {
 
-        // 1/ je récupère l'url
+        // 1/ je récupère l'URL
         $url = $_GET['url'] ?? '';
         $url = trim($url, '/');
         $segments = explode('/', $url);
 
-        // 2/ controleur (par défaut HomeController
+        // 2/ controleur (par défaut HomeController)
         $nomControleur = !empty($segments[0]) 
             ? ucfirst($segments[0]) . 'Controller'
             : 'HomeController';
 
-        // 3/ méthode 
+        // 3/ méthode
         $methode = !empty($segments[1]) 
             ? $segments[1]
             : 'index';
@@ -40,9 +40,10 @@ class Router {
         // 4/ chemin du fichier
         $fichierControleur = __DIR__ . '/../app/controllers/' . $nomControleur . '.php';
 
-        // 5/ verif si le fichier existe
+        // 5/ vérif si le fichier existe
         if (!file_exists($fichierControleur)) {
-            die("Controller introuvable");
+            $this->error404();
+            return;
         }
 
         require_once $fichierControleur;
@@ -50,17 +51,30 @@ class Router {
         // 6/ crée le controleur
         $controleur = new $nomControleur();
 
-        // 7/ bloque certaines méthodes pour sécuriser un peu
+        // 7/ bloque certaines méthodes pour sécuriser
         if ($methode == '__construct' || $methode == '__destruct') {
-            die("Méthode interdite");
+            $this->error404();
+            return;
         }
 
         // 8/ vérif si la méthode existe
         if (!method_exists($controleur, $methode)) {
-            die("Méthode introuvable");
+            $this->error404();
+            return;
         }
 
         // 9/ appel de la méthode
         $controleur->$methode();
+    }
+
+    private function error404() {
+        http_response_code(404);
+        $fichier404 = __DIR__ . '/../app/views/errors/404.php';
+        if (file_exists($fichier404)) {
+            require $fichier404;
+        } else {
+            echo "<h1>404 - Page introuvable</h1>";
+        }
+        exit;
     }
 }
