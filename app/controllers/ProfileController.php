@@ -7,18 +7,24 @@ require_once __DIR__ . '/../models/Manager/BookManager.php';
 class ProfileController extends Controller {
 
     public function index() {
-
-        $userManager = new UserManager();
-        $bookManager = new BookManager();
-
-        $user = $userManager->findById($_SESSION['user_id']);
-        $livres = $bookManager->getByUser($_SESSION['user_id']);
-
-        $this->view('profile/index', [
-            'user' => $user,
-            'livres' => $livres ?? []
-        ]);
+    // Vérification de la connexion
+    if (!isset($_SESSION['user_id'])) {
+        http_response_code(404);
+        $this->view('errors/404');
+        exit;
     }
+
+    $userManager = new UserManager();
+    $bookManager = new BookManager();
+
+    $user = $userManager->findById($_SESSION['user_id']);
+    $livres = $bookManager->getByUser($_SESSION['user_id']);
+
+    $this->view('profile/index', [
+        'user' => $user,
+        'livres' => $livres ?? []
+    ]);
+}
 
     public function edit() {
         if (!isset($_SESSION['user_id'])) {

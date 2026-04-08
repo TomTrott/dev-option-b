@@ -7,27 +7,33 @@ require_once __DIR__ . '/../models/Manager/MessageManager.php';
 class MessagesController extends Controller {
 
     public function index() {
-
-        $userId = $_SESSION['user_id'];
-
-        $convManager = new ConversationManager();
-        $msgManager = new MessageManager();
-
-        $conversations = $convManager->getByUser($userId);
-
-        $currentConv = $_GET['conv'] ?? null;
-        $messages = [];
-
-        if ($currentConv) {
-            $messages = $msgManager->getByConversation($currentConv);
-        }
-
-        $this->view('messages/index', [
-            'conversations' => $conversations,
-            'messages' => $messages,
-            'currentConv' => $currentConv
-        ]);
+    // Vérification de la connexion
+    if (!isset($_SESSION['user_id'])) {
+        http_response_code(404);
+        $this->view('errors/404');
+        exit;
     }
+
+    $userId = $_SESSION['user_id'];
+
+    $convManager = new ConversationManager();
+    $msgManager = new MessageManager();
+
+    $conversations = $convManager->getByUser($userId);
+
+    $currentConv = $_GET['conv'] ?? null;
+    $messages = [];
+
+    if ($currentConv) {
+        $messages = $msgManager->getByConversation($currentConv);
+    }
+
+    $this->view('messages/index', [
+        'conversations' => $conversations,
+        'messages' => $messages,
+        'currentConv' => $currentConv
+    ]);
+}
 
     public function send() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -46,12 +46,25 @@ class BookManager extends Model {
 
     //trouve un livre par son id
     public function find($id) {
-        $stmt = $this->db->prepare("SELECT * FROM books WHERE id = ?");
-        $stmt->execute([$id]);
+    $stmt = $this->db->prepare("
+        SELECT books.*, users.username
+        FROM books
+        JOIN users ON books.user_id = users.id
+        WHERE books.id = ?
+    ");
+    $stmt->execute([$id]);
 
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $data ? new Book($data) : null;
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$data) {
+        return null;
     }
+
+    $book = new Book($data);
+    $book->setUsername($data['username']); // hydrate le username
+
+    return $book;
+}
 
 //recherche tous les livres d'un utilisateur
     public function getByUser($user_id) {
@@ -118,4 +131,5 @@ public function updateAvailability(int $id, int $isAvailable): bool {
     ");
     return $stmt->execute([$isAvailable, $id]);
 }
+
 }

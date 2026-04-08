@@ -25,27 +25,26 @@
             <?= nl2br(htmlspecialchars($livre->getDescription())) ?>
         </p>
 
-        <!-- PROPRIETAIRE -->
-        <div class="owner">
-            <p>PROPRIÉTAIRE</p>
+    <!-- PROPRIETAIRE -->
+<div class="owner">
+    <p>PROPRIÉTAIRE</p>
 
-            <div class="owner-box">
-                <div class="avatar"></div>
-                <span><?= htmlspecialchars($livre->getUsername() ?? 'Inconnu') ?></span>
-            </div>
-        </div>
+    <div class="owner-box">
+        <div class="avatar"></div>
+        <span><?= htmlspecialchars($livre->getUsername() ?? 'Inconnu') ?></span>
+    </div>
+</div>
 
-        <?php if ($livre->getUserId() != $_SESSION['user_id']): ?>
-
-            <a href="<?= BASE_URL ?>messages/start?user=<?= $livre->getUserId() ?>" class="btn-contact">
-                Envoyer un message
-            </a>
-
-        <?php else: ?>
-
-            <p class="own-book">C'est votre livre</p>
-
-        <?php endif; ?>
+<!-- BOUTON MESSAGE -->
+<?php if (!empty($_SESSION['user_id']) && $livre->getUserId() != $_SESSION['user_id']): ?>
+    <a href="<?= BASE_URL ?>messages/start?user=<?= $livre->getUserId() ?>" class="btn-contact">
+        Envoyer un message
+    </a>
+<?php elseif (!empty($_SESSION['user_id']) && $livre->getUserId() == $_SESSION['user_id']): ?>
+    <p class="own-book">C'est votre livre</p>
+<?php else: ?>
+    <p class="login-msg">Connectez-vous pour contacter le propriétaire</p>
+<?php endif; ?>
 
     </div>
 
