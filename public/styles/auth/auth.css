@@ -5,6 +5,17 @@
     height: 100vh;
 }
 
+/*erreur message*/
+.auth-error {
+    background: #ffe5e5;
+    color: #d60000;
+    padding: 12px 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    border: 1px solid #ffb3b3;
+}
+
 /* ===== PARTIE GAUCHE ===== */
 .auth-left {
     width: 50%;

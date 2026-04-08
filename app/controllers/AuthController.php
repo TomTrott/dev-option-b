@@ -15,33 +15,51 @@ class AuthController extends Controller {
 
     public function store() {
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $user = new User([
-                'username' => $_POST['username'],
-                'email' => $_POST['email'],
-                'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)
-            ]);
+        $userManager = new UserManager();
 
-            $userManager = new UserManager();
-            $userManager->create($user);
+        // Vérifie si email existe déjà
+        $existingUser = $userManager->findByEmail($_POST['email']);
 
-            header('Location: ' . BASE_URL . 'auth/login');
+        if ($existingUser) {
+            $_SESSION['register_error'] = "Cet email est déjà utilisé";
+            header('Location: ' . BASE_URL . 'auth/register');
+            exit;
         }
+
+        $user = new User([
+            'username' => $_POST['username'],
+            'email' => $_POST['email'],
+            'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)
+        ]);
+
+        $userManager->create($user);
+
+        header('Location: ' . BASE_URL . 'auth/login');
+        exit;
     }
+}
 
     public function authenticate() {
 
-        $userManager = new UserManager();
-        $user = $userManager->findByEmail($_POST['email']);
+    $userManager = new UserManager();
+    $user = $userManager->findByEmail($_POST['email']);
 
-        if ($user && password_verify($_POST['password'], $user->getPassword())) {
+    if ($user && password_verify($_POST['password'], $user->getPassword())) {
 
-            $_SESSION['user_id'] = $user->getId();
+        $_SESSION['user_id'] = $user->getId();
 
-            header('Location: ' . BASE_URL);
-        }
+        header('Location: ' . BASE_URL);
+        exit;
+
+    } else {
+
+        $_SESSION['login_error'] = "Email ou mot de passe incorrect";
+        header('Location: ' . BASE_URL . 'auth/login');
+        exit;
     }
+}
 
     public function logout() {
         session_destroy();

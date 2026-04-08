@@ -84,7 +84,7 @@ body {
     letter-spacing: 1px;
 }
 
-/*RIGHT CARD */
+/* RIGHT CARD */
 .profile-right {
     flex: 1;
     padding: 50px 40px;
@@ -148,25 +148,13 @@ body {
     padding: 30px;
 }
 
-/* HEADER */
-.profile-books-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.profile-books-header h3 {
-    font-size: 18px;
-    font-weight: 500;
-}
-
 /* TABLE */
 .profile-books table {
     width: 100%;
     border-collapse: collapse;
 }
 
+/* HEADER */
 .profile-books thead {
     border-bottom: 1px solid #F0F0F0;
 }
@@ -178,26 +166,31 @@ body {
     padding: 15px;
 }
 
-/* Alignement général des cellules */
+/* CELLS */
 .profile-books td {
-    vertical-align: top; 
-    text-align: center; 
+    vertical-align: top;
+    text-align: center;
     padding: 18px 15px;
     font-size: 14px;
     border-bottom: 1px solid #F7F7F7;
 }
 
-/* Style pour les images en carré et centrées */
-.profile-books img {
-    width: 55px;
-    height: 55px; 
-    object-fit: cover;
-    border-radius: 8px;
-    display: block; 
-    margin: 0 auto; 
+/* 🔥 ALTERNANCE DES LIGNES */
+.profile-books tbody tr:nth-child(even) {
+    background-color: #f1f1f1;
 }
 
-/* Limiter la description à 3 lignes max et centrer */
+/* IMAGE */
+.profile-books img {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* DESCRIPTION LIMIT */
 .profile-books td:nth-child(4) {
     max-width: 200px;
     overflow: hidden;
@@ -206,11 +199,11 @@ body {
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     white-space: normal;
-    text-align: center; 
+    text-align: center;
     margin: 0 auto;
 }
 
-/* Alignement des boutons "Éditer" et "Supprimer" */
+/* ACTIONS */
 .profile-books td:last-child {
     text-align: center;
     white-space: nowrap;
@@ -226,32 +219,29 @@ body {
 
 .status.ok {
     background: #00AC66;
-    color: #ffffff;
+    color: #fff;
 }
 
 .status.no {
     background: #F67280;
-    color: #ffffff;
+    color: #fff;
 }
 
-/* ACTIONS */
+/* LINKS */
 .profile-books a {
     font-size: 14px;
     text-decoration: underline;
     margin-right: 10px;
 }
 
-/* Lien éditer */
 .profile-books a:not(.btn-delete) {
-    color: #666;
+    color: #535252;
 }
 
-/* Bouton supprimer */
 .btn-delete {
     color: #ff4d4d;
 }
 
-/* Hover supprimer */
 .btn-delete:hover {
     color: #b30000;
 }
@@ -271,7 +261,7 @@ body {
     background-color: #019e5c;
 }
 
-/* EDIT BOOK PAGE*/
+/* EDIT PAGE */
 .edit-book-page {
     background-color: #F5F3EF;
     padding: 40px 80px;

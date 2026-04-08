@@ -6,6 +6,12 @@
     <div class="auth-left">
         <div class="auth-card">
             <h2>Inscription</h2>
+            <?php if (!empty($_SESSION['register_error'])): ?>
+    <div class="auth-error">
+        <?= $_SESSION['register_error']; ?>
+    </div>
+    <?php unset($_SESSION['register_error']); ?>
+<?php endif; ?>
             <form method="POST" action="<?= BASE_URL ?>auth/store">
                 <!-- nom utilisateur --> <input type="text" name="username" placeholder="Nom d'utilisateur" required>
                 <!-- email --> <input type="email" name="email" placeholder="Adresse email" required>
