@@ -1,18 +1,16 @@
 <?php
 
+require_once __DIR__ . '/env.php';
+
 class Database {
-    private $host = 'localhost';
-    private $db_name = 'book_exchange';
-    private $username = 'root';
-    private $password = 'root';
     private $conn;
 
     public function connect() {
         try {
             $this->conn = new PDO(
-                "mysql:host={$this->host};dbname={$this->db_name};charset=utf8mb4",
-                $this->username,
-                $this->password
+                "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
+                DB_USER,
+                DB_PASS
             );
 
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

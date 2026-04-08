@@ -1,0 +1,89 @@
+/* Reset simple */
+
+html, body {
+    height: 100%;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.main-content {
+    flex: 1;
+}
+/* Fond général */
+body {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #ffffff, #f1e7e7);
+}
+
+/* Container principal */
+.error-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+/* Carte centrale */
+.error-card {
+    background: #ffffff;
+    padding: 50px 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Titre 404 */
+.error-card h1 {
+    font-size: 80px;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+/* Sous-titre */
+.error-card h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Texte */
+.error-card p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+/* Bouton */
+.btn-home {
+    display: inline-block;
+    padding: 12px 25px;
+    background: linear-gradient(135deg, #ffffff, #ffffff);
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+/* Hover bouton */
+.btn-home:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
