@@ -19,7 +19,7 @@
 
         <div class="separator"></div>
 
-        <h4>DESCRIPTION</h4>
+        <h2>DESCRIPTION</h2>
 
         <p class="description">
             <?= nl2br(htmlspecialchars($livre->getDescription())) ?>

@@ -50,4 +50,62 @@
     </div>
 </div>
 
+<!-- Comment ça marche -->
+<div class="how-it-works">
+    <div class="container">
+        <h2>Comment ça marche ?</h2>
+        <p class="subtitle">
+            Échanger des livres avec TomTroc c’est simple et amusant ! Suivez ces étapes pour commencer :
+        </p>
+
+        <div class="steps">
+            <div class="step">
+                <p>Inscrivez-vous gratuitement sur notre plateforme.</p>
+            </div>
+            <div class="step">
+                <p>Ajoutez les livres que vous souhaitez échanger à votre profil.</p>
+            </div>
+            <div class="step">
+                <p>Parcourez les livres disponibles chez d'autres membres.</p>
+            </div>
+            <div class="step">
+                <p>Proposez un échange et discutez avec d'autres passionnés de lecture.</p>
+            </div>
+        </div>
+
+        <a href="<?= BASE_URL ?>exchange/index" class="btn-main">
+            Voir tous les livres
+        </a>
+    </div>
+</div>
+
+<!-- Image bibliothèque -->
+<div class="library-banner"></div>
+
+<!-- Nos valeurs -->
+<div class="values">
+    <div class="container values-content">
+        <div class="text">
+            <h2>Nos valeurs</h2>
+
+            <p>
+                Chez Tom Troc, nous mettons l'accent sur le partage, la découverte et la communauté.
+                Nos valeurs sont ancrées dans notre passion pour les livres et notre désir de créer des liens entre les lecteurs.
+                Nous croyons en la puissance des histoires pour rassembler les gens et inspirer des conversations enrichissantes.
+            </p>
+
+            <p>
+                Notre association a été fondée avec une conviction profonde : chaque livre mérite d'être lu et partagé.
+            </p>
+
+            <p>
+                Nous sommes passionnés par la création d'une plateforme conviviale qui permet aux lecteurs de se connecter,
+                de partager leurs découvertes littéraires et d'échanger des livres qui attendent patiemment sur les étagères.
+            </p>
+
+            <span class="signature">L’équipe Tom Troc</span>
+        </div>
+    </div>
+</div>
+
 <?php require_once __DIR__ . '/layout/footer.php'; ?>

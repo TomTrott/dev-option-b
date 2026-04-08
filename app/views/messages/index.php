@@ -111,11 +111,11 @@
 
             <!-- INPUT -->
             <div class="chat-input">
-                <form method="POST" action="<?= BASE_URL ?>messages/send">
-                    <input type="hidden" name="conversation_id" value="<?= $currentConv ?>">
-                    <input type="text" name="content" placeholder="Tapez votre message ici" required>
-                    <button type="submit">Envoyer</button>
-                </form>
+            <form method="POST" action="<?= BASE_URL ?>messages/send">
+                <input type="hidden" name="conversation_id" value="<?= $currentConv ?>">
+                <input type="text" name="content" placeholder="Tapez votre message ici" required>
+                <button type="submit">Envoyer</button>
+            </form>
             </div>
 
         <?php endif; ?>

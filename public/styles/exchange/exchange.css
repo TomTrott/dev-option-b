@@ -1,13 +1,11 @@
-/* ===== GLOBAL ===== */
-
+/* container */
 .exchange-container {
     padding: 60px 20px;
     background: #f7f6f4;
     min-height: 100vh;
 }
 
-/* ===== HEADER ===== */
-
+/* header */
 .exchange-header {
     max-width: 1100px;
     margin: 0 auto 50px;
@@ -23,14 +21,13 @@
     font-weight: 400;
 }
 
-/* ===== SEARCH ===== */
-
+/* barre de recherche */
 .search-bar input {
     padding: 12px 18px;
     width: 260px;
     border: 1px solid #e5e5e5;
-    background: #ffffff;
-    font-family: Inter;
+    background: #fff;
+    font-family: 'Inter', sans-serif;
 }
 
 .search-bar input:focus {
@@ -38,8 +35,7 @@
     border-color: #00AC66;
 }
 
-/* ===== GRID ===== */
-
+/* grille */
 .exchange-books {
     max-width: 1100px;
     margin: 0 auto;
@@ -48,14 +44,13 @@
     gap: 30px;
 }
 
-/* ===== CARD ===== */
-
+/* carte */
 .book-card {
     background: #fff;
-    overflow: hidden;
-    transition: 0.3s;
-    position: relative;
     width: 215px;
+    overflow: hidden;
+    position: relative;
+    transition: 0.3s;
 }
 
 .book-card:hover {
@@ -82,7 +77,7 @@
 }
 
 .book-info p {
-    font-family: Inter;
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
     color: #888;
 }

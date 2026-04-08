@@ -175,7 +175,7 @@ body {
     border-bottom: 1px solid #F7F7F7;
 }
 
-/* 🔥 ALTERNANCE DES LIGNES */
+/* ALTERNANCE DES LIGNES */
 .profile-books tbody tr:nth-child(even) {
     background-color: #f1f1f1;
 }
@@ -319,29 +319,4 @@ body {
 .edit-book-page button[type="submit"]:hover {
     background: #00AC66;
     color: #fff;
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .page-title {
-        margin: 30px 20px;
-    }
-
-    .profile-top {
-        flex-direction: column;
-        padding: 0 20px;
-    }
-
-    .profile-books {
-        margin: 30px 20px;
-        padding: 20px;
-    }
-
-    .edit-book-page {
-        padding: 20px;
-    }
-
-    .edit-book-page form {
-        padding: 20px;
-    }
 }

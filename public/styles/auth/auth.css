@@ -1,11 +1,10 @@
-/* ===== AUTH FULL SCREEN ===== */
-
+/* container principal */
 .auth-container {
     display: flex;
     height: 100vh;
 }
 
-/*erreur message*/
+/* message erreur */
 .auth-error {
     background: #ffe5e5;
     color: #d60000;
@@ -16,7 +15,7 @@
     border: 1px solid #ffb3b3;
 }
 
-/* ===== PARTIE GAUCHE ===== */
+/* partie gauche */
 .auth-left {
     width: 50%;
     display: flex;
@@ -39,19 +38,19 @@
     margin-bottom: 30px;
 }
 
-/* form */
+/* formulaire */
 .auth-card form {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-/* inputs */
+/* champs */
 .auth-card input {
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    font-family: Inter;
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
 }
 
@@ -62,8 +61,8 @@
 
 /* bouton */
 .auth-card .btn {
-    background-color: #00AC66;
-    color: white;
+    background: #00AC66;
+    color: #fff;
     padding: 15px;
     border-radius: 8px;
     border: none;
@@ -73,7 +72,7 @@
 }
 
 .auth-card .btn:hover {
-    background-color: #019e5c;
+    background: #019e5c;
 }
 
 /* lien */
@@ -91,11 +90,8 @@
     text-decoration: underline;
 }
 
-/* ===== PARTIE DROITE ===== */
+/* partie droite (image) */
 .auth-right {
     width: 50%;
-    background-image: url("../../uploads/banniere.png"); 
-    background-size: cover;
-    background-position: center;
+    background: url("../../uploads/banniere.png") center/cover no-repeat;
 }
-

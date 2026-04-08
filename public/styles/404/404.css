@@ -1,24 +1,26 @@
-/* Reset simple */
-
-html, body {
-    height: 100%;
-}
+/* reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-.main-content {
-    flex: 1;
+
+html, body {
+    height: 100%;
 }
-/* Fond général */
+
+/* structure page */
 body {
     display: flex;
     flex-direction: column;
     background: linear-gradient(135deg, #ffffff, #f1e7e7);
 }
 
-/* Container principal */
+.main-content {
+    flex: 1;
+}
+
+/* centrage de la page erreur */
 .error-page {
     display: flex;
     justify-content: center;
@@ -26,9 +28,9 @@ body {
     height: 80vh;
 }
 
-/* Carte centrale */
+/* carte */
 .error-card {
-    background: #ffffff;
+    background: #fff;
     padding: 50px 40px;
     border-radius: 15px;
     text-align: center;
@@ -38,45 +40,42 @@ body {
     animation: fadeIn 0.8s ease-in-out;
 }
 
-/* Titre 404 */
+/* titres */
 .error-card h1 {
     font-size: 80px;
-    color: #000000;
     margin-bottom: 10px;
 }
 
-/* Sous-titre */
 .error-card h2 {
     font-size: 24px;
     margin-bottom: 15px;
     color: #333;
 }
 
-/* Texte */
+/* texte */
 .error-card p {
     font-size: 16px;
     color: #666;
     margin-bottom: 25px;
 }
 
-/* Bouton */
+/* bouton */
 .btn-home {
     display: inline-block;
     padding: 12px 25px;
-    background: linear-gradient(135deg, #ffffff, #ffffff);
-    color: rgb(0, 0, 0);
+    background: #fff;
+    color: #000;
     text-decoration: none;
     border-radius: 30px;
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
 
-/* Hover bouton */
 .btn-home:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
-/* Animation */
+/* animation */
 @keyframes fadeIn {
     from {
         opacity: 0;
