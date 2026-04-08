@@ -1,19 +1,21 @@
 <?php
+
 require_once __DIR__ . '/../../core/Controller.php';
-require_once __DIR__ . '/../models/Book.php';
+require_once __DIR__ . '/../models/Manager/BookManager.php';
 
 class BooksController extends Controller {
+
     public function edit() {
+
         if (!isset($_SESSION['user_id'])) {
             header('Location: ' . BASE_URL . 'auth/login');
             exit;
         }
 
-        $bookModel = new Book();
-        $livre = $bookModel->find($_GET['id']);
+        $bookManager = new BookManager();
+        $livre = $bookManager->find($_GET['id']);
 
-        if (!$livre || $livre['user_id'] != $_SESSION['user_id']) {
-            $_SESSION['error'] = "Livre introuvable ou accès refusé.";
+        if (!$livre || $livre->getUserId() != $_SESSION['user_id']) {
             header('Location: ' . BASE_URL . 'profile');
             exit;
         }
@@ -22,125 +24,81 @@ class BooksController extends Controller {
     }
 
     public function update() {
+
         if (!isset($_SESSION['user_id'])) {
-            header('Location: ' . BASE_URL . 'auth/login');
             exit;
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = $_POST['id'];
-            $title = trim($_POST['title']);
-            $author = trim($_POST['author']);
-            $description = trim($_POST['description']);
 
-            $bookModel = new Book();
-            $livre = $bookModel->find($id);
+            $bookManager = new BookManager();
+            $livre = $bookManager->find($_POST['id']);
 
-            if (!$livre || $livre['user_id'] != $_SESSION['user_id']) {
-                $_SESSION['error'] = "Livre introuvable ou accès refusé.";
-                header('Location: ' . BASE_URL . 'profile');
+            if (!$livre || $livre->getUserId() != $_SESSION['user_id']) {
                 exit;
             }
 
-            $bookModel->update($id, $title, $author, $description);
-            $_SESSION['success'] = "Livre mis à jour avec succès.";
+            $livre->setTitle($_POST['title']);
+            $livre->setAuthor($_POST['author']);
+            $livre->setDescription($_POST['description']);
+
+            $bookManager->update($livre);
+
             header('Location: ' . BASE_URL . 'profile');
             exit;
         }
-
-        header('Location: ' . BASE_URL . 'profile');
-        exit;
     }
 
     public function toggleAvailability() {
-        if (!isset($_SESSION['user_id'])) {
-            header('Location: ' . BASE_URL . 'auth/login');
-            exit;
+
+        $bookManager = new BookManager();
+        $livre = $bookManager->find($_GET['id']);
+
+        if ($livre->getUserId() == $_SESSION['user_id']) {
+            $bookManager->updateAvailability($_GET['id'], $_GET['isAvailable']);
         }
 
-        $id = $_GET['id'];
-        $isAvailable = $_GET['isAvailable'] == '1' ? 1 : 0;
-
-        $bookModel = new Book();
-        $livre = $bookModel->find($id);
-
-        if (!$livre || $livre['user_id'] != $_SESSION['user_id']) {
-            $_SESSION['error'] = "Livre introuvable ou accès refusé.";
-            header('Location: ' . BASE_URL . 'profile');
-            exit;
-        }
-
-        $bookModel->updateAvailability($id, $isAvailable);
-        $_SESSION['success'] = "Disponibilité mise à jour avec succès.";
         header('Location: ' . BASE_URL . 'profile');
-        exit;
     }
 
     public function show() {
 
-        if (!isset($_GET['id'])) {
-            header('Location: ' . BASE_URL . 'exchange');
-            exit;
-        }
+        $bookManager = new BookManager();
+        $livre = $bookManager->find($_GET['id']);
 
-        $id = $_GET['id'];
-
-        $bookModel = new Book();
-        $livre = $bookModel->find($id);
-
-        if (!$livre) {
-            header('Location: ' . BASE_URL . 'exchange');
-            exit;
-        }
-
-        $this->view('books/view', [
-            'livre' => $livre
-        ]);
+        $this->view('books/view', ['livre' => $livre]);
     }
 
     public function create() {
-    if (!isset($_SESSION['user_id'])) {
-        header('Location: ' . BASE_URL . 'auth/login');
-        exit;
+        $this->view('books/create');
     }
 
-    $this->view('books/create');
-}
+    public function store() {
 
-public function store() {
-    if (!isset($_SESSION['user_id'])) {
-        header('Location: ' . BASE_URL . 'auth/login');
-        exit;
-    }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $imageName = null;
 
-        $title = trim($_POST['title']);
-        $author = trim($_POST['author']);
-        $description = trim($_POST['description']);
+            if (!empty($_FILES['image']['name'])) {
+                $imageName = time() . '_' . $_FILES['image']['name'];
+                move_uploaded_file(
+                    $_FILES['image']['tmp_name'],
+                    __DIR__ . '/../../public/uploads/' . $imageName
+                );
+            }
 
-        // upload image
-        $imageName = null;
+            $book = new Book([
+                'user_id' => $_SESSION['user_id'],
+                'title' => $_POST['title'],
+                'author' => $_POST['author'],
+                'description' => $_POST['description'],
+                'image' => $imageName
+            ]);
 
-        if (!empty($_FILES['image']['name'])) {
-            $imageName = time() . '_' . $_FILES['image']['name'];
-            move_uploaded_file(
-                $_FILES['image']['tmp_name'],
-                __DIR__ . '/../../public/uploads/' . $imageName
-            );
+            $bookManager = new BookManager();
+            $bookManager->create($book);
+
+            header('Location: ' . BASE_URL . 'profile');
         }
-
-        $bookModel = new Book();
-        $bookModel->create(
-            $_SESSION['user_id'],
-            $title,
-            $author,
-            $description,
-            $imageName
-        );
-
-        header('Location: ' . BASE_URL . 'profile');
-        exit;
     }
-}
 }

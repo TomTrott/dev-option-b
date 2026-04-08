@@ -1,24 +1,24 @@
 <?php
 
 require_once __DIR__ . '/../../core/Controller.php';
-require_once __DIR__ . '/../models/User.php';
-require_once __DIR__ . '/../models/Book.php'; 
+require_once __DIR__ . '/../models/Manager/UserManager.php';
+require_once __DIR__ . '/../models/Manager/BookManager.php';
 
 class ProfileController extends Controller {
 
     public function index() {
-        // crée les objet
-    $userModel = new User();
-    $bookModel = new Book();
 
-    $user = $userModel->findById($_SESSION['user_id']);
-    $livres = $bookModel->getByUser($_SESSION['user_id']);
+        $userManager = new UserManager();
+        $bookManager = new BookManager();
 
-    $this->view('profile/index', [
-        'user' => $user,
-        'livres' => $livres ?? [] 
-    ]);
-}
+        $user = $userManager->findById($_SESSION['user_id']);
+        $livres = $bookManager->getByUser($_SESSION['user_id']);
+
+        $this->view('profile/index', [
+            'user' => $user,
+            'livres' => $livres ?? []
+        ]);
+    }
 
     public function edit() {
         if (!isset($_SESSION['user_id'])) {
@@ -26,11 +26,12 @@ class ProfileController extends Controller {
             exit;
         }
 
-        $utilisateur = (new User())->findById($_SESSION['user_id']);
+        $userManager = new UserManager();
+        $utilisateur = $userManager->findById($_SESSION['user_id']);
 
         $this->view('profile/edit', ['user' => $utilisateur]);
     }
-// met a jour
+
     public function update() {
         if (!isset($_SESSION['user_id'])) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -46,7 +47,13 @@ class ProfileController extends Controller {
                 exit;
             }
 
-            (new User())->updateProfile($_SESSION['user_id'], $nom, $bio);
+            $userManager = new UserManager();
+            $user = $userManager->findById($_SESSION['user_id']);
+
+            $user->setUsername($nom);
+            $user->setBio($bio);
+
+            $userManager->updateProfile($user);
 
             header('Location: ' . BASE_URL . 'profile');
             exit;

@@ -1,8 +1,8 @@
 <?php
 
 require_once __DIR__ . '/../../core/Controller.php';
-require_once __DIR__ . '/../models/Conversation.php';
-require_once __DIR__ . '/../models/Message.php';
+require_once __DIR__ . '/../models/Manager/ConversationManager.php';
+require_once __DIR__ . '/../models/Manager/MessageManager.php';
 
 class MessagesController extends Controller {
 
@@ -10,16 +10,16 @@ class MessagesController extends Controller {
 
         $userId = $_SESSION['user_id'];
 
-        $convModel = new Conversation();
-        $msgModel = new Message();
+        $convManager = new ConversationManager();
+        $msgManager = new MessageManager();
 
-        $conversations = $convModel->getByUser($userId);
+        $conversations = $convManager->getByUser($userId);
 
         $currentConv = $_GET['conv'] ?? null;
         $messages = [];
 
         if ($currentConv) {
-            $messages = $msgModel->getByConversation($currentConv);
+            $messages = $msgManager->getByConversation($currentConv);
         }
 
         $this->view('messages/index', [
@@ -29,48 +29,43 @@ class MessagesController extends Controller {
         ]);
     }
 
-    // envoyer message
     public function send() {
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $msgModel = new Message();
+            $msgManager = new MessageManager();
 
-            $msgModel->send(
-                $_POST['conversation_id'],
-                $_SESSION['user_id'],
-                $_POST['content']
-            );
+            $message = new Message([
+                'conversation_id' => $_POST['conversation_id'],
+                'sender_id' => $_SESSION['user_id'],
+                'content' => $_POST['content']
+            ]);
+
+            $msgManager->send($message);
 
             header('Location: ' . BASE_URL . 'messages?conv=' . $_POST['conversation_id']);
         }
     }
 
-    // supprimer message
     public function delete() {
-
-        $msgModel = new Message();
-
-        $msgModel->delete($_GET['id'], $_SESSION['user_id']);
+        $msgManager = new MessageManager();
+        $msgManager->delete($_GET['id'], $_SESSION['user_id']);
 
         header('Location: ' . BASE_URL . 'messages?conv=' . $_GET['conv']);
     }
 
-    // bouton depuis page livre
     public function start() {
 
-    $userId = $_SESSION['user_id'];
-    $otherUser = $_GET['user'];
+        $userId = $_SESSION['user_id'];
+        $otherUser = $_GET['user'];
 
-    // AUTO-CONVERSATION
-    if ($userId == $otherUser) {
-        header('Location: ' . BASE_URL . 'exchange');
-        exit;
+        if ($userId == $otherUser) {
+            header('Location: ' . BASE_URL . 'exchange');
+            exit;
+        }
+
+        $convManager = new ConversationManager();
+        $convId = $convManager->findOrCreate($userId, $otherUser);
+
+        header('Location: ' . BASE_URL . 'messages?conv=' . $convId);
     }
-
-    $convModel = new Conversation();
-    $convId = $convModel->findOrCreate($userId, $otherUser);
-
-    header('Location: ' . BASE_URL . 'messages?conv=' . $convId);
-}
 }

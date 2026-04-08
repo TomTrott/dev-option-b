@@ -8,6 +8,8 @@ class Book {
     private $description;
     private $image;
     private $is_available;
+    private $username; 
+
 //constructeur
     public function __construct($data = []) {
         if ($data) $this->hydrate($data);
@@ -32,6 +34,10 @@ class Book {
     public function getDescription() { return $this->description; }
     public function getImage() { return $this->image; }
     public function getIsAvailable() { return $this->is_available; }
+    public function getUsername() {
+    return $this->username;
+}
+
 
     // SETTERS
     public function setId($id) { $this->id = $id; }
@@ -41,4 +47,7 @@ class Book {
     public function setDescription($description) { $this->description = $description; }
     public function setImage($image) { $this->image = $image; }
     public function setIsAvailable($is_available) { $this->is_available = $is_available; }
+    public function setUsername($username) {
+    $this->username = $username;
+}
 }

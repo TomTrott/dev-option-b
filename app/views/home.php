@@ -27,18 +27,18 @@
     <div class="latest-books">
         <?php if (!empty($livres)): ?>
             <?php foreach ($livres as $livre): ?>
-                <div class="book-card">
-                    <?php if ($livre['image']): ?>
-                        <img src="<?= BASE_URL ?>uploads/<?= $livre['image'] ?>" alt="<?= htmlspecialchars($livre['title']) ?>">
-                    <?php endif; ?>
+    <div class="book-card">
+        <?php if ($livre->getImage()): ?>
+            <img src="<?= BASE_URL ?>uploads/<?= $livre->getImage() ?>" alt="<?= htmlspecialchars($livre->getTitle()) ?>">
+        <?php endif; ?>
 
-                    <div class="book-info">
-                        <h3><?= htmlspecialchars($livre['title']) ?></h3>
-                        <p>Auteur: <em><?= htmlspecialchars($livre['author']) ?></em></p>
-                        <p class="seller">Vendu par : <?= htmlspecialchars($livre['username']) ?></p>
-                    </div>
-                </div>
-            <?php endforeach; ?>
+        <div class="book-info">
+            <h3><?= htmlspecialchars($livre->getTitle()) ?></h3>
+            <p>Auteur: <em><?= htmlspecialchars($livre->getAuthor()) ?></em></p>
+            <p class="seller">Vendu par : <?= htmlspecialchars($livre->getUsername() ?? 'Inconnu') ?></p>
+        </div>
+    </div>
+<?php endforeach; ?>
         <?php else: ?>
             <p>Aucun livre pour le moment</p>
         <?php endif; ?>

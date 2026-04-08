@@ -7,10 +7,9 @@ class HomeController extends Controller {
 
     public function index() {
 
-        // récup les derniers livres
-        $livres = (new Book())->getLastBooks(4);
+        $bookManager = new BookManager();
+        $livres = $bookManager->getLastBooks(4);
 
-        // envoie à la vue
-        $this->view('home', ['livres' => $livres]); // home.php
+        $this->view('home', ['livres' => $livres]);
     }
 }
